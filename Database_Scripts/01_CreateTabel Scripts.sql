@@ -137,3 +137,9 @@ CREATE TABLE FINANCE_REPORT (
 GO
 
 PRINT 'EBMS Database and all 16 tables created successfully!';
+
+INSERT INTO EMPLOYEE (Name, EmpType, DeptID) 
+VALUES ('John Doe', 'Permanent', NULL);
+
+INSERT INTO EMPLOYEE (Name, EmpType, DeptID) 
+VALUES ('Jane Smith', 'Intern', NULL);

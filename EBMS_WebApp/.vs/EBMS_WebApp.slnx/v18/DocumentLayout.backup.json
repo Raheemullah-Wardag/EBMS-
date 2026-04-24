@@ -1,0 +1,88 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "F:\\2nd SEM project\\EBMS-Group-Project\\EBMS_WebApp\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{83D6FDC6-74CC-4B24-89E4-8E0D69A21339}|EBMS_WebApp\\EBMS_WebApp.csproj|f:\\2nd sem project\\ebms-group-project\\ebms_webapp\\ebms_webapp\\dataaccess\\dbhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{83D6FDC6-74CC-4B24-89E4-8E0D69A21339}|EBMS_WebApp\\EBMS_WebApp.csproj|solutionrelative:ebms_webapp\\dataaccess\\dbhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{83D6FDC6-74CC-4B24-89E4-8E0D69A21339}|EBMS_WebApp\\EBMS_WebApp.csproj|f:\\2nd sem project\\ebms-group-project\\ebms_webapp\\ebms_webapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{83D6FDC6-74CC-4B24-89E4-8E0D69A21339}|EBMS_WebApp\\EBMS_WebApp.csproj|solutionrelative:ebms_webapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{83D6FDC6-74CC-4B24-89E4-8E0D69A21339}|EBMS_WebApp\\EBMS_WebApp.csproj|f:\\2nd sem project\\ebms-group-project\\ebms_webapp\\ebms_webapp\\views\\hr\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{83D6FDC6-74CC-4B24-89E4-8E0D69A21339}|EBMS_WebApp\\EBMS_WebApp.csproj|solutionrelative:ebms_webapp\\views\\hr\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{83D6FDC6-74CC-4B24-89E4-8E0D69A21339}|EBMS_WebApp\\EBMS_WebApp.csproj|f:\\2nd sem project\\ebms-group-project\\ebms_webapp\\ebms_webapp\\controllers\\hrcontoller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{83D6FDC6-74CC-4B24-89E4-8E0D69A21339}|EBMS_WebApp\\EBMS_WebApp.csproj|solutionrelative:ebms_webapp\\controllers\\hrcontoller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "F:\\2nd SEM project\\EBMS-Group-Project\\EBMS_WebApp\\EBMS_WebApp\\Program.cs",
+              "RelativeDocumentMoniker": "EBMS_WebApp\\Program.cs",
+              "ToolTip": "F:\\2nd SEM project\\EBMS-Group-Project\\EBMS_WebApp\\EBMS_WebApp\\Program.cs",
+              "RelativeToolTip": "EBMS_WebApp\\Program.cs",
+              "ViewState": "AgIAAAUAAAAwMzMzMzMlwB8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-24T12:58:46.532Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DBHelper.cs",
+              "DocumentMoniker": "F:\\2nd SEM project\\EBMS-Group-Project\\EBMS_WebApp\\EBMS_WebApp\\DataAccess\\DBHelper.cs",
+              "RelativeDocumentMoniker": "EBMS_WebApp\\DataAccess\\DBHelper.cs",
+              "ToolTip": "F:\\2nd SEM project\\EBMS-Group-Project\\EBMS_WebApp\\EBMS_WebApp\\DataAccess\\DBHelper.cs",
+              "RelativeToolTip": "EBMS_WebApp\\DataAccess\\DBHelper.cs",
+              "ViewState": "AgIAABwAAADAMjMzMzMrwCAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-24T12:51:31.569Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "F:\\2nd SEM project\\EBMS-Group-Project\\EBMS_WebApp\\EBMS_WebApp\\Views\\HR\\Index.cshtml",
+              "RelativeDocumentMoniker": "EBMS_WebApp\\Views\\HR\\Index.cshtml",
+              "ToolTip": "F:\\2nd SEM project\\EBMS-Group-Project\\EBMS_WebApp\\EBMS_WebApp\\Views\\HR\\Index.cshtml",
+              "RelativeToolTip": "EBMS_WebApp\\Views\\HR\\Index.cshtml",
+              "ViewState": "AgIAAAgAAADAMzMzMzMLwB8AAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-24T11:39:07.436Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "HRContoller.cs",
+              "DocumentMoniker": "F:\\2nd SEM project\\EBMS-Group-Project\\EBMS_WebApp\\EBMS_WebApp\\Controllers\\HRContoller.cs",
+              "RelativeDocumentMoniker": "EBMS_WebApp\\Controllers\\HRContoller.cs",
+              "ToolTip": "F:\\2nd SEM project\\EBMS-Group-Project\\EBMS_WebApp\\EBMS_WebApp\\Controllers\\HRContoller.cs",
+              "RelativeToolTip": "EBMS_WebApp\\Controllers\\HRContoller.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAYwA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-24T11:36:44.923Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

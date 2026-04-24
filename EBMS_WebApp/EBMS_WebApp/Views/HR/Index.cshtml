@@ -1,0 +1,32 @@
+﻿@model List<EBMS_WebApp.Models.Employee>
+
+<div class="container mt-4">
+    <h2 class="text-primary">Human Resources Dashboard</h2>
+    <hr />
+
+    <table class="table table-bordered table-striped shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Employee Name</th>
+                <th>Employment Type</th>
+                <th>Calculated Salary (Polymorphism)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var emp in Model)
+            {
+                <tr>
+                    <td>@emp.EmpID</td>
+                    <td>@emp.Name</td>
+
+                    <!-- We check the actual Object Type to display the role -->
+                    <td>@emp.GetType().Name</td>
+
+                    <!-- This single method runs completely different math depending on if it's an Intern or Permanent! -->
+                    <td class="text-success fw-bold">$@emp.CalculateSalary()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
