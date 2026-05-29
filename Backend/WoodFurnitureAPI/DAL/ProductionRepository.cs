@@ -55,6 +55,23 @@ public class ProductionRepository : BaseRepository
  
         cmd.ExecuteNonQuery();
     }
+
+    // Allocate raw materials to a production batch (trigger handles deduction)
+    public void AllocateMaterial(int batchId, int materialId, decimal qtyUsed, int recordedBy)
+    {
+        using var conn = GetConnection();
+        conn.Open();
+        using var cmd = new SqlCommand(@"
+            INSERT INTO MaterialUsage (BatchID, MaterialID, QtyUsed, UsageDate, RecordedBy)
+            VALUES (@BatchID, @MaterialID, @QtyUsed, CAST(SYSUTCDATETIME() AS DATE), @RecordedBy)", conn);
+ 
+        cmd.Parameters.AddWithValue("@BatchID",     batchId);
+        cmd.Parameters.AddWithValue("@MaterialID",  materialId);
+        cmd.Parameters.AddWithValue("@QtyUsed",     qtyUsed);
+        cmd.Parameters.AddWithValue("@RecordedBy",  recordedBy);
+ 
+        cmd.ExecuteNonQuery();
+    }
  
     private ProductionBatch MapBatch(SqlDataReader r) => new ProductionBatch
     {

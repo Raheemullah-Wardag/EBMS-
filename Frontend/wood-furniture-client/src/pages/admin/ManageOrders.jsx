@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import AdminLayout from '../../components/AdminLayout';
 import StatusBadge from '../../components/StatusBadge';
 import { getAllOrders, updateOrderStatus } from '../../api/orderApi';
+import { createBatch } from '../../api/productionApi';
 import { useAuth } from '../../context/AuthContext';
 import { Search, Eye, X, ChevronDown } from 'lucide-react';
  
@@ -19,6 +20,14 @@ const ManageOrders = () => {
     const [selected, setSelected]     = useState(null);  // detail modal
     const [page,     setPage]         = useState(1);
     const [updating, setUpdating]     = useState(false);
+    const [showBatchModal, setShowBatchModal] = useState(false);
+    const [pendingOrder, setPendingOrder] = useState(null);
+    const [batchForm, setBatchForm] = useState({
+        batchName: '',
+        startDate: '',
+        endDate: '',
+        assignedTo: ''
+    });
  
     const fetchOrders = () => {
         setLoading(true);
@@ -55,13 +64,55 @@ const ManageOrders = () => {
     const paginated   = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
  
     // ── Update Status ──────────────────────────────────────
-    const handleStatusChange = async (orderId, newStatus) => {
+    const handleStatusChange = async (order, newStatus) => {
+        // If custom order transitioning to InProduction, show batch creation modal
+        if (order.orderType === 'Custom' && newStatus === 'InProduction') {
+            setPendingOrder(order);
+            setBatchForm({
+                batchName: `Batch for Order #${order.orderID}`,
+                startDate: new Date().toISOString().split('T')[0],
+                endDate: new Date(Date.now() + 7*24*60*60*1000).toISOString().split('T')[0],
+                assignedTo: ''
+            });
+            setShowBatchModal(true);
+            return;
+        }
+
+        // Normal status update
         setUpdating(true);
         try {
-            await updateOrderStatus(orderId, { newStatus });
+            await updateOrderStatus(order.orderID, { newStatus });
             fetchOrders();
-            if (selected?.orderID === orderId)
+            if (selected?.orderID === order.orderID)
                 setSelected(prev => ({ ...prev, orderStatus: newStatus }));
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setUpdating(false);
+        }
+    };
+
+    const handleCreateBatchAndUpdateStatus = async (e) => {
+        e.preventDefault();
+        setUpdating(true);
+        try {
+            // Create production batch
+            await createBatch({
+                orderID: pendingOrder.orderID,
+                batchName: batchForm.batchName,
+                startDate: new Date(batchForm.startDate).toISOString(),
+                endDate: new Date(batchForm.endDate).toISOString(),
+                assignedTo: parseInt(batchForm.assignedTo),
+                quantityPlanned: 1
+            });
+
+            // Then update order status
+            await updateOrderStatus(pendingOrder.orderID, { newStatus: 'InProduction' });
+            
+            setShowBatchModal(false);
+            fetchOrders();
+            if (selected?.orderID === pendingOrder.orderID)
+                setSelected(prev => ({ ...prev, orderStatus: 'InProduction' }));
         } catch (err) {
             console.error(err);
         } finally {
@@ -71,8 +122,87 @@ const ManageOrders = () => {
  
     return (
         <AdminLayout title="Order Management">
- 
-            {/* Detail Modal */}
+
+            {/* Batch Creation Modal (for custom orders → InProduction) */}
+            {showBatchModal && pendingOrder && (
+                <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 relative">
+                        <button onClick={() => setShowBatchModal(false)}
+                            className="absolute top-4 right-4 text-gray-400 hover:text-gray-700">
+                            <X size={20} />
+                        </button>
+                        <h2 className="text-xl font-bold text-gray-900 mb-6">Create Production Batch</h2>
+                        <p className="text-sm text-gray-600 mb-4">
+                            Custom Order #{pendingOrder.orderID} will be marked as "In Production"
+                        </p>
+                        
+                        <form onSubmit={handleCreateBatchAndUpdateStatus} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-semibold text-gray-700 mb-1">Batch Name</label>
+                                <input
+                                    type="text"
+                                    required
+                                    value={batchForm.batchName}
+                                    onChange={e => setBatchForm({...batchForm, batchName: e.target.value})}
+                                    className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600"
+                                />
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-1">Start Date</label>
+                                    <input
+                                        type="date"
+                                        required
+                                        value={batchForm.startDate}
+                                        onChange={e => setBatchForm({...batchForm, startDate: e.target.value})}
+                                        className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-1">End Date</label>
+                                    <input
+                                        type="date"
+                                        required
+                                        value={batchForm.endDate}
+                                        onChange={e => setBatchForm({...batchForm, endDate: e.target.value})}
+                                        className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600"
+                                    />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-semibold text-gray-700 mb-1">Assign To (Employee ID)</label>
+                                <input
+                                    type="number"
+                                    required
+                                    value={batchForm.assignedTo}
+                                    onChange={e => setBatchForm({...batchForm, assignedTo: e.target.value})}
+                                    className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600"
+                                    placeholder="Employee ID"
+                                />
+                            </div>
+
+                            <div className="flex gap-3 pt-4">
+                                <button
+                                    type="button"
+                                    onClick={() => setShowBatchModal(false)}
+                                    className="flex-1 border border-gray-200 text-gray-700 py-2.5 rounded-xl font-medium hover:bg-gray-50 transition"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={updating}
+                                    className="flex-1 bg-amber-700 hover:bg-amber-800 text-white py-2.5 rounded-xl font-medium transition disabled:opacity-50"
+                                >
+                                    {updating ? 'Creating...' : 'Create & Proceed'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
             {selected && (
                 <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
                     <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg p-8 relative max-h-[90vh] overflow-y-auto">
@@ -106,19 +236,18 @@ const ManageOrders = () => {
                             ))}
                         </div>
  
-                        {/* Update Status */}
-                        <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">Update Status</label>
-                            <div className="flex gap-2">
-                                <select
-                                    defaultValue={selected.orderStatus}
-                                    onChange={e => handleStatusChange(selected.orderID, e.target.value)}
-                                    disabled={updating}
-                                    className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600">
-                                    {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
-                                </select>
+                            <div>
+                                <label className="block text-sm font-semibold text-gray-700 mb-2">Update Status</label>
+                                <div className="flex gap-2">
+                                    <select
+                                        defaultValue={selected.orderStatus}
+                                        onChange={e => handleStatusChange(selected, e.target.value)}
+                                        disabled={updating}
+                                        className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600">
+                                        {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
+                                    </select>
+                                </div>
                             </div>
-                        </div>
                     </div>
                 </div>
             )}
@@ -223,7 +352,7 @@ const ManageOrders = () => {
                                                 </button>
                                                 <select
                                                     value={order.orderStatus}
-                                                    onChange={e => handleStatusChange(order.orderID, e.target.value)}
+                                                    onChange={e => handleStatusChange(order, e.target.value)}
                                                     disabled={updating}
                                                     className="text-xs border border-gray-200 rounded-lg px-2 py-1 focus:outline-none focus:ring-1 focus:ring-amber-500 bg-white">
                                                     {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
