@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import CustomerLayout from '../../components/CustomerLayout';
 import { getAllProducts } from '../../api/productApi';
+import { getImageUrl } from '../../api/imageUrl';
 import { Star, Truck, Home as HomeIcon, Scissors, Leaf } from 'lucide-react';
 
 const categories = [
     { name: 'Chairs',      img: 'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?auto=format&fit=crop&w=300&q=80' },
     { name: 'Tables',      img: 'https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?auto=format&fit=crop&w=300&q=80' },
-    { name: 'Cabinets',    img: 'https://images.unsplash.com/photo-1595514535415-842220b22a01?auto=format&fit=crop&w=300&q=80' },
+    { name: 'Cabinets',    img: 'https://images.unsplash.com/photo-1601760561441-16420502c7e0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
     { name: 'Sofas',       img: 'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=300&q=80' },
     { name: 'Beds',        img: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=300&q=80' },
     { name: 'Accessories', img: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=300&q=80' },
@@ -136,7 +137,7 @@ const Home = () => {
                                             className="bg-white rounded-3xl p-4 hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col border border-gray-100/50 group cursor-pointer shadow-sm">
                                             <div className="bg-gray-50 rounded-2xl h-60 flex items-center justify-center mb-5 overflow-hidden relative">
                                                 {p.images?.[0]
-                                                    ? <img src={`http://localhost:5059/${p.images[0].imagePath}`}
+                                                    ? <img src={getImageUrl(p.images[0].imagePath)}
                                                         alt={p.productName}
                                                         className="h-full w-full object-cover group-hover:scale-105 transition duration-700" />
                                                     : <img src={categories[1].img}

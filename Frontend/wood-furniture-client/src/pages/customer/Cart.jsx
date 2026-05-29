@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CustomerLayout from '../../components/CustomerLayout';
+import { getImageUrl } from '../../api/imageUrl';
 import { Minus, Plus, ArrowRight, ShoppingBag, X, Tag } from 'lucide-react';
 
 const DELIVERY_CHARGE = 2500;
@@ -34,13 +35,13 @@ const Cart = () => {
         const code = coupon.trim().toUpperCase();
         if (code === 'WOOD10') {
             setDiscount(Math.round(subtotal * 0.10));
-            setCouponMsg('✅ 10% discount applied!');
+            setCouponMsg('10% discount applied!');
         } else if (code === 'WELCOME') {
             setDiscount(500);
-            setCouponMsg('✅ Rs. 500 discount applied!');
+            setCouponMsg('Rs. 500 discount applied!');
         } else {
             setDiscount(0);
-            setCouponMsg('❌ Invalid coupon code.');
+            setCouponMsg('Invalid coupon code.');
         }
     };
 
@@ -92,7 +93,7 @@ const Cart = () => {
                                             <div className="sm:col-span-5 flex items-center gap-4 w-full">
                                                 <div className="bg-white rounded-xl w-20 h-20 flex items-center justify-center shrink-0 overflow-hidden shadow-sm">
                                                     {item.images?.[0]
-                                                        ? <img src={`http://localhost:5059/${item.images[0].imagePath}`}
+                                                        ? <img src={getImageUrl(item.images[0].imagePath)}
                                                             className="w-full h-full object-cover" alt={item.productName} />
                                                         : <img src="https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?auto=format&fit=crop&w=300&q=80"
                                                             className="w-full h-full object-cover opacity-60" alt="Placeholder" />

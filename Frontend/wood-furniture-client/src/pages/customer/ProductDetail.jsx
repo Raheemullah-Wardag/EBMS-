@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import CustomerLayout from '../../components/CustomerLayout';
 import { getProductByID } from '../../api/productApi';
+import { getImageUrl } from '../../api/imageUrl';
 import { ChevronRight, Star, Minus, Plus, ShoppingBag, ShieldCheck } from 'lucide-react';
 
 const ProductDetail = () => {
@@ -89,7 +90,7 @@ const ProductDetail = () => {
                 <div className="md:w-1/2 flex flex-col gap-4">
                     <div className="bg-gray-50 rounded-3xl h-80 md:h-[500px] flex items-center justify-center overflow-hidden border border-gray-100">
                         {mainImg
-                            ? <img src={`http://localhost:5059/${mainImg.imagePath}`}
+                            ? <img src={getImageUrl(mainImg.imagePath)}
                                 alt={product.productName}
                                 className="h-full w-full object-cover" />
                             : <img src="https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?auto=format&fit=crop&w=800&q=80"
@@ -110,7 +111,7 @@ const ProductDetail = () => {
                                             ? 'border-amber-800 ring-2 ring-amber-800/20'
                                             : 'border-transparent hover:border-amber-200'}`}
                                 >
-                                    <img src={`http://localhost:5059/${img.imagePath}`}
+                                    <img src={getImageUrl(img.imagePath)}
                                         alt={img.altText}
                                         className="w-full h-full object-cover" />
                                 </button>

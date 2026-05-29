@@ -2,11 +2,24 @@ import { useEffect, useState, useMemo } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import CustomerLayout from '../../components/CustomerLayout';
 import { getAllProducts } from '../../api/productApi';
+import { getImageUrl } from '../../api/imageUrl';
 import { ChevronRight, Star, SlidersHorizontal, ShoppingCart } from 'lucide-react';
 
 const categories = ['Chairs', 'Tables', 'Cabinets', 'Sofas', 'Beds', 'Accessories'];
-const woodTypes  = ['Teak', 'Oak', 'Walnut', 'Sheesham', 'Mango Wood'];
-
+const woodTypes = [
+  'Teak', 
+  'Oak', 
+  'Walnut', 
+  'Sheesham', 
+  'Mango Wood',
+  'Pine',             // Added from SQL data
+  'Pine Wood',        // Added from SQL data
+  'Mahogany',         // Added from SQL data
+  'Cherry Wood',      // Added from SQL data
+  'Engineered Wood',  // Added from SQL data
+  'Treated Wood',     // Added from SQL data
+  'Wood'              // Added from SQL data (Generic)
+];
 const Shop = () => {
     const navigate                        = useNavigate();
     const [searchParams]                  = useSearchParams();
@@ -179,7 +192,7 @@ const Shop = () => {
 
                                     <div className="bg-gray-50 rounded-xl h-56 flex items-center justify-center mb-4 overflow-hidden">
                                         {p.images?.[0]
-                                            ? <img src={`http://localhost:5059/${p.images[0].imagePath}`}
+                                            ? <img src={getImageUrl(p.images[0].imagePath)}
                                                 alt={p.productName}
                                                 className="h-full w-full object-cover group-hover:scale-105 transition duration-500" />
                                             : <img src="https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?auto=format&fit=crop&w=300&q=80"

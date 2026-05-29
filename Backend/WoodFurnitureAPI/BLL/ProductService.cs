@@ -9,7 +9,12 @@ public class ProductService
 
     public List<ProductResponseDto> GetAll()
     {
-        return _repo.GetAll().Select(MapToDto).ToList();
+        return _repo.GetAll().Select(p => 
+        {
+            var dto = MapToDto(p);
+            dto.Images = GetImages(p.ProductID);
+            return dto;
+        }).ToList();
     }
 
     public ProductResponseDto? GetByID(int id)

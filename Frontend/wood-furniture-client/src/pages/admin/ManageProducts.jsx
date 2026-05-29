@@ -380,6 +380,7 @@
 import { useState, useEffect } from 'react';
 import AdminLayout from '../../components/AdminLayout';
 import { getAllProducts, createProduct, updateProduct, deleteProduct } from '../../api/productApi';
+import { getImageUrl } from '../../api/imageUrl';
 import { Plus, Search, Edit, Trash2, X, Check } from 'lucide-react';
 
 const ITEMS_PER_PAGE = 10;
@@ -717,7 +718,7 @@ const ManageProducts = () => {
                                                 <div className="flex items-center gap-4">
                                                     <div className="w-12 h-12 rounded-lg bg-gray-100 border border-gray-200 overflow-hidden shrink-0">
                                                         {mainImg
-                                                            ? <img src={`${import.meta.env.VITE_API_URL?.replace('/api','')}/${mainImg.imagePath}`}
+                                                            ? <img src={getImageUrl(mainImg.imagePath)}
                                                                 alt={product.productName}
                                                                 className="w-full h-full object-cover" />
                                                             : <div className="w-full h-full flex items-center justify-center text-gray-400 text-xl">🪑</div>

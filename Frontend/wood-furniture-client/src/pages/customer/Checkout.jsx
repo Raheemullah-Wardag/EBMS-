@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import CustomerLayout from '../../components/CustomerLayout';
 import { placeStockOrder } from '../../api/orderApi';
+import { getImageUrl } from '../../api/imageUrl';
 import { ChevronRight, CreditCard, Banknote, CheckCircle2 } from 'lucide-react';
 
 const DELIVERY_CHARGE = 2500;
@@ -174,7 +175,7 @@ const Checkout = () => {
                                 <div key={item.productID} className="flex gap-4">
                                     <div className="w-16 h-16 bg-gray-50 rounded-lg overflow-hidden border border-gray-100 shrink-0">
                                         {item.images?.[0]
-                                            ? <img src={`http://localhost:5059/${item.images[0].imagePath}`}
+                                            ? <img src={getImageUrl(item.images[0].imagePath)}
                                                 className="w-full h-full object-cover" alt={item.productName} />
                                             : <div className="w-full h-full bg-amber-50 flex items-center justify-center text-2xl">🪑</div>
                                         }

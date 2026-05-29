@@ -1,0 +1,61 @@
+ProductID,CategoryID,ProductName,SKU,Description,Material,Dimensions,WeightKG,BasePrice,StockQty,ReorderLevel,IsActive,CreatedAt,UpdatedAt
+1,1,Oak Dining Chair,CHR-001,Classic oak dining chair,Wood,45x45x90,6.0,150.00,45,10,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+2,1,Modern Accent Chair,CHR-002,Mid-century modern accent chair,Fabric/Wood,60x60x80,12.0,299.00,20,5,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+3,1,Leather Office Chair,CHR-003,Ergonomic executive chair,Leather/Metal,65x65x110,18.0,450.00,15,5,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+4,1,Velvet Lounge Chair,CHR-004,Plush velvet lounge seating,Velvet,70x75x85,15.0,350.00,10,3,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+5,1,Plastic Outdoor Chair,CHR-005,Weather-resistant patio chair,Plastic,50x50x85,3.5,45.00,100,20,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+6,1,Folding Wooden Chair,CHR-006,Space-saving folding chair,Wood,40x45x80,4.0,65.00,80,15,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+7,1,Rattan Armchair,CHR-007,Boho style rattan chair,Rattan,65x70x90,8.0,220.00,12,4,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+8,1,High Bar Stool,CHR-008,Industrial style bar stool,Metal/Wood,40x40x100,7.5,110.00,30,10,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+9,1,Rocking Chair,CHR-009,Traditional wooden rocking chair,Wood,60x80x105,14.0,280.00,8,2,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+10,1,Gaming Chair,CHR-010,High-back racing style chair,Faux Leather,65x60x120,20.0,300.00,25,5,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+11,2,Glass Dining Table,TBL-001,Modern glass top dining table,Glass/Metal,160x90x75,45.0,600.00,10,2,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+12,2,Rustic Farmhouse Table,TBL-002,Solid pine large dining table,Pine Wood,200x100x76,60.0,850.00,5,1,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+13,2,Round Coffee Table,TBL-003,Minimalist living room table,Wood,80x80x45,15.0,180.00,35,10,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+14,2,Nesting Side Tables,TBL-004,Set of 3 nesting tables,Metal/Wood,50x50x55,12.0,150.00,40,15,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+15,2,Marble Console Table,TBL-005,Elegant hallway table,Marble/Metal,120x40x80,30.0,450.00,8,2,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+16,2,Study Desk,TBL-006,Home office desk with drawers,Engineered Wood,120x60x75,25.0,220.00,25,5,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+17,2,Outdoor Picnic Table,TBL-007,Weatherproof garden table,Treated Wood,180x150x75,80.0,350.00,12,3,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+18,2,Folding Card Table,TBL-008,Square folding table,Plastic/Metal,85x85x74,10.0,55.00,60,20,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+19,2,Bedside Table,TBL-009,Small nightstand with one drawer,Wood,45x40x55,8.0,95.00,50,15,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+20,2,Adjustable Standing Desk,TBL-010,Motorized sit-stand desk,Metal/Wood,140x70x70,35.0,550.00,18,4,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+21,3,King Bed,BED-001,Solid wood king size frame,Wood,210x190x110,75.0,45000.00,1,5,1,2026-04-30 14:51:17,2026-05-05 15:35:52
+22,3,Single Bed,BED-002,Standard single bed frame,Wood,200x100x90,40.0,25000.00,11,5,1,2026-04-30 14:51:17,2026-05-09 11:41:40
+23,3,Queen Upholstered Bed,BED-003,Fabric headboard bed,Fabric/Wood,210x160x120,65.0,38000.00,8,3,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+24,3,Bunk Bed,BED-004,Kids twin over twin bunk,Metal,200x100x160,55.0,28000.00,15,5,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+25,3,Storage Platform Bed,BED-005,Bed with under-mattress drawers,Wood,205x145x45,85.0,42000.00,6,2,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+26,3,Four Poster Bed,BED-006,Classic mahogany four poster,Mahogany,215x195x200,90.0,85000.00,2,1,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+27,3,Trundle Bed,BED-007,Guest bed with pull-out base,Wood,200x100x60,45.0,32000.00,9,3,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+28,3,Sleigh Bed,BED-008,Curved headboard and footboard,Cherry Wood,220x160x115,70.0,55000.00,4,2,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+29,3,Daybed,BED-009,Versatile seating and sleeping,Metal,200x95x90,35.0,21000.00,12,4,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+30,3,Minimalist Futon,BED-010,Low profile wooden futon frame,Pine,200x140x20,25.0,15000.00,20,5,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+31,4,3-Seater Sofa,SOF-001,Comfortable fabric 3-seater,Fabric,220x90x85,55.0,60000.00,1,5,1,2026-04-30 14:51:17,2026-05-08 11:31:17
+32,4,Corner Sofa,SOF-002,Large L-shaped sectional,Leather,280x200x85,95.0,75000.00,50,5,1,2026-04-30 14:51:17,2026-05-09 12:20:14
+33,4,Loveseat,SOF-003,Compact 2-seater sofa,Velvet,150x85x85,40.0,45000.00,12,4,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+34,4,Sofa Bed,SOF-004,Convertible sleeper sofa,Fabric,200x95x90,65.0,58000.00,8,2,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+35,4,Chesterfield Sofa,SOF-005,Tufted leather classic sofa,Leather,230x95x80,75.0,95000.00,3,1,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+36,4,Recliner Sofa,SOF-006,3-seater with manual recliners,Faux Leather,220x95x100,85.0,70000.00,6,2,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+37,4,Modular Sofa Set,SOF-007,Customizable 5-piece set,Fabric,300x300x85,120.0,110000.00,4,1,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+38,4,Mid-Century Sofa,SOF-008,Retro style with wooden legs,Linen,210x85x80,45.0,52000.00,15,5,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+39,4,Futon Couch,SOF-009,Simple fold-down couch,Cotton/Metal,180x90x80,30.0,25000.00,25,10,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+40,4,Outdoor Rattan Sofa,SOF-010,Patio 2-seater with cushions,Rattan,140x75x70,25.0,35000.00,10,3,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+41,5,Tall Bookshelf,CAB-001,5-tier wooden bookcase,Wood,80x30x180,25.0,180.00,30,10,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+42,5,TV Media Console,CAB-002,Low cabinet for entertainment,Wood/Metal,150x40x50,35.0,250.00,20,5,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+43,5,Glass Display Cabinet,CAB-003,Curio cabinet with glass doors,Wood/Glass,90x40x190,55.0,450.00,8,2,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+44,5,Kitchen Pantry,CAB-004,Tall storage for kitchen goods,Engineered Wood,80x45x180,45.0,300.00,15,4,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+45,5,Filing Cabinet,CAB-005,3-drawer metal office storage,Metal,40x50x100,20.0,120.00,40,15,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+46,5,Sideboard Buffet,CAB-006,Dining room storage cabinet,Oak,160x45x85,60.0,550.00,5,1,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+47,5,Bathroom Vanity,CAB-007,Sink base cabinet,Wood,90x50x85,30.0,380.00,12,3,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+48,5,Shoe Cabinet,CAB-008,Entryway shoe storage,Engineered Wood,80x35x100,22.0,150.00,25,8,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+49,5,Wardrobe Armoire,CAB-009,Large freestanding closet,Pine,120x60x200,85.0,700.00,7,2,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+50,5,Wall Mounted Cupboard,CAB-010,Floating storage cabinet,Wood,60x30x60,15.0,90.00,35,10,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+51,6,Table Lamp,ACC-001,Ceramic base table lamp,Ceramic/Fabric,30x30x55,2.5,45.00,100,20,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+52,6,Floor Rug,ACC-002,Persian style woven rug,Wool,200x300x2,12.0,250.00,20,5,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+53,6,Wall Mirror,ACC-003,Round brass frame mirror,Glass/Metal,80x80x3,5.0,120.00,30,8,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+54,6,Throw Pillow,ACC-004,Decorative cotton cushion,Cotton,45x45x15,0.5,25.00,150,30,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+55,6,Vase Set,ACC-005,Set of 3 glass vases,Glass,15x15x30,1.5,40.00,60,15,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+56,6,Wall Clock,ACC-006,Minimalist wooden clock,Wood,40x40x5,1.0,55.00,45,10,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+57,6,Coat Rack,ACC-007,Standing metal coat tree,Metal,45x45x175,6.0,65.00,25,5,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+58,6,Potted Artificial Plant,ACC-008,Faux fiddle leaf fig,Plastic,40x40x120,4.0,85.00,40,10,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+59,6,Curtain Set,ACC-009,Blackout living room drapes,Polyester,140x250x1,2.0,75.00,50,15,1,2023-10-27 10:00:00,2023-10-27 10:00:00
+60,6,Serving Tray,ACC-010,Wooden ottoman tray,Wood,50x30x5,1.2,35.00,70,20,1,2023-10-27 10:00:00,2023-10-27 10:00:00
