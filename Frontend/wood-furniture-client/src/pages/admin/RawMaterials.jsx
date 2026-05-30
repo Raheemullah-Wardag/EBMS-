@@ -5,7 +5,7 @@
 import { useState, useEffect } from 'react';
 import AdminLayout from '../../components/AdminLayout';
 import axiosInstance from '../../api/axiosInstance';
-import { Search, Plus, X, Edit } from 'lucide-react';
+import { Search, Plus, X, Edit, FileText, Download } from 'lucide-react';
 
 const emptyMaterial = { materialName: '', unit: 'kg', stockQty: '', reorderLevel: '', costPerUnit: '', supplier: '' };
 
@@ -19,14 +19,25 @@ const RawMaterials = () => {
     const [form,      setForm]      = useState(emptyMaterial);
     const [saving,    setSaving]    = useState(false);
     const [error,     setError]     = useState('');
+    
+    // Purchase Order state
+    const [showPOModal, setShowPOModal] = useState(false);
+    const [selectedMaterials, setSelectedMaterials] = useState({});
+    const [poData, setPoData] = useState(null);
 
     const fetchMaterials = () => {
         setLoading(true);
+        setError('');
         axiosInstance.get('/rawmaterials').then(res => {
             setMaterials(res.data);
             setFiltered(res.data);
-        }).catch(() => { setMaterials([]); setFiltered([]); })
-          .finally(() => setLoading(false));
+        }).catch(err => { 
+            const errorMsg = err.response?.data?.message || err.message || 'Failed to load raw materials';
+            setError(errorMsg);
+            console.error('Error fetching materials:', err);
+            setMaterials([]); 
+            setFiltered([]); 
+        }).finally(() => setLoading(false));
     };
 
     useEffect(() => { fetchMaterials(); }, []);
@@ -67,8 +78,245 @@ const RawMaterials = () => {
         return 'bg-amber-100 text-amber-700';
     };
 
+    // Handle material selection for PO
+    const handleMaterialToggle = (materialID) => {
+        setSelectedMaterials(prev => {
+            const newSelected = { ...prev };
+            if (newSelected[materialID]) {
+                delete newSelected[materialID];
+            } else {
+                newSelected[materialID] = { qty: 1 };
+            }
+            return newSelected;
+        });
+    };
+
+    const handleMaterialQtyChange = (materialID, qty) => {
+        setSelectedMaterials(prev => ({
+            ...prev,
+            [materialID]: { qty: parseInt(qty) || 0 }
+        }));
+    };
+
+    const generatePO = () => {
+        const selected = Object.keys(selectedMaterials).map(id => {
+            const mat = materials.find(m => m.materialID == id);
+            return {
+                ...mat,
+                orderQty: selectedMaterials[id].qty
+            };
+        });
+
+        if (selected.length === 0) {
+            setError('Please select at least one material');
+            return;
+        }
+
+        // Group by supplier
+        const grouped = {};
+        selected.forEach(item => {
+            const supplier = item.supplier || 'Unknown Supplier';
+            if (!grouped[supplier]) {
+                grouped[supplier] = [];
+            }
+            grouped[supplier].push(item);
+        });
+
+        setPoData({ grouped, selectedItems: selected });
+        setShowPOModal(false);
+    };
+
+    const downloadPO = () => {
+        if (!poData) return;
+
+        const { grouped, selectedItems } = poData;
+        let htmlContent = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Purchase Order</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { margin: 0; color: #333; }
+        .po-number { color: #666; font-size: 14px; }
+        .company-info { margin-bottom: 20px; padding: 10px; background: #f5f5f5; border-radius: 5px; }
+        .supplier-section { margin-bottom: 30px; page-break-inside: avoid; }
+        .supplier-name { font-size: 16px; font-weight: bold; margin: 15px 0 10px 0; color: #333; border-bottom: 2px solid #8B5A2B; padding-bottom: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th { background-color: #8B5A2B; color: white; padding: 10px; text-align: left; font-size: 12px; }
+        td { padding: 10px; border-bottom: 1px solid #ddd; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .total { font-weight: bold; text-align: right; }
+        .footer { margin-top: 40px; font-size: 12px; color: #666; }
+        .print-date { margin-top: 20px; font-size: 12px; color: #999; }
+        @media print {
+            body { margin: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>PURCHASE ORDER</h1>
+        <p class="po-number">Generated: ${new Date().toLocaleDateString('en-PK')}</p>
+    </div>
+
+    <div class="company-info">
+        <strong>From:</strong> Wood Furniture Management System<br>
+        <strong>Date:</strong> ${new Date().toLocaleDateString('en-PK')}<br>
+        <strong>Status:</strong> Pending
+    </div>
+`;
+
+        // Generate PO for each supplier
+        Object.entries(grouped).forEach(([supplier, items]) => {
+            htmlContent += `
+    <div class="supplier-section">
+        <div class="supplier-name">Supplier: ${supplier}</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Material Name</th>
+                    <th>Unit</th>
+                    <th>Order Qty</th>
+                    <th>Unit Price (Rs.)</th>
+                    <th>Total (Rs.)</th>
+                </tr>
+            </thead>
+            <tbody>
+`;
+            let supplierTotal = 0;
+            items.forEach(item => {
+                const total = (item.costPerUnit || 0) * item.orderQty;
+                supplierTotal += total;
+                htmlContent += `
+                <tr>
+                    <td>${item.materialName}</td>
+                    <td>${item.unit}</td>
+                    <td>${item.orderQty}</td>
+                    <td>${(item.costPerUnit || 0).toLocaleString()}</td>
+                    <td>${total.toLocaleString()}</td>
+                </tr>
+`;
+            });
+            htmlContent += `
+                <tr style="background-color: #f0f0f0;">
+                    <td colspan="4" class="total">Subtotal:</td>
+                    <td class="total">Rs. ${supplierTotal.toLocaleString()}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+`;
+        });
+
+        const grandTotal = selectedItems.reduce((sum, item) => sum + ((item.costPerUnit || 0) * item.orderQty), 0);
+
+        htmlContent += `
+    <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #333;">
+        <div style="text-align: right; font-size: 16px; font-weight: bold; margin: 20px 0;">
+            Grand Total: Rs. ${grandTotal.toLocaleString()}
+        </div>
+    </div>
+
+    <div class="footer">
+        <p><strong>Terms & Conditions:</strong></p>
+        <ul>
+            <li>Delivery terms to be agreed upon with supplier</li>
+            <li>Payment terms: As per company policy</li>
+            <li>Quality checks will be performed upon delivery</li>
+        </ul>
+    </div>
+
+    <div class="print-date">
+        <p>This is a system-generated document. Please print and submit to supplier.</p>
+    </div>
+</body>
+</html>
+`;
+
+        // Create and download
+        const element = document.createElement('a');
+        const file = new Blob([htmlContent], { type: 'text/html' });
+        element.href = URL.createObjectURL(file);
+        element.download = `PO_${new Date().getTime()}.html`;
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    };
+
     return (
         <AdminLayout title="Raw Materials">
+            {/* PO Generation Modal */}
+            {showPOModal && (
+                <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl p-8 relative max-h-[90vh] overflow-y-auto">
+                        <button onClick={() => setShowPOModal(false)} className="absolute top-4 right-4 text-gray-400 hover:text-gray-700">
+                            <X size={20} />
+                        </button>
+                        <h2 className="text-xl font-bold text-gray-900 mb-6">Generate Purchase Order</h2>
+                        <p className="text-sm text-gray-600 mb-6">Select materials and quantities to generate a purchase order</p>
+
+                        {error && <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4 text-sm">{error}</div>}
+
+                        <div className="bg-gray-50 rounded-xl p-4 space-y-3 max-h-96 overflow-y-auto mb-6">
+                            {materials.length === 0 ? (
+                                <p className="text-gray-500 text-sm">No materials available</p>
+                            ) : (
+                                materials.map(mat => {
+                                    const isSelected = selectedMaterials[mat.materialID];
+                                    return (
+                                        <div key={mat.materialID} className="flex items-center gap-4 p-3 bg-white rounded-lg border border-gray-200 hover:border-amber-300">
+                                            <input
+                                                type="checkbox"
+                                                checked={!!isSelected}
+                                                onChange={() => handleMaterialToggle(mat.materialID)}
+                                                className="w-5 h-5 rounded border-gray-300 text-amber-600 cursor-pointer"
+                                            />
+                                            <div className="flex-1 min-w-0">
+                                                <p className="font-medium text-gray-900">{mat.materialName}</p>
+                                                <p className="text-xs text-gray-500">
+                                                    Supplier: {mat.supplier || 'N/A'} | Stock: {mat.stockQty} {mat.unit} | Price: Rs. {mat.costPerUnit?.toLocaleString() || 'N/A'}
+                                                </p>
+                                            </div>
+                                            {isSelected && (
+                                                <div className="flex items-center gap-2">
+                                                    <input
+                                                        type="number"
+                                                        min="1"
+                                                        value={isSelected.qty}
+                                                        onChange={e => handleMaterialQtyChange(mat.materialID, e.target.value)}
+                                                        className="w-20 border border-gray-300 rounded-lg px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600"
+                                                        placeholder="Qty"
+                                                    />
+                                                    <span className="text-sm text-gray-600 whitespace-nowrap">{mat.unit}</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    );
+                                })
+                            )}
+                        </div>
+
+                        <div className="flex gap-3">
+                            <button
+                                type="button"
+                                onClick={() => setShowPOModal(false)}
+                                className="flex-1 border border-gray-200 text-gray-700 py-2.5 rounded-xl font-medium hover:bg-gray-50 transition"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={generatePO}
+                                className="flex-1 bg-amber-700 hover:bg-amber-800 text-white py-2.5 rounded-xl font-medium transition"
+                            >
+                                Generate PO
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
             {showModal && (
                 <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
                     <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 relative">
@@ -127,10 +375,18 @@ const RawMaterials = () => {
                     <input type="text" placeholder="Search materials..." value={search} onChange={e => setSearch(e.target.value)}
                         className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-600 bg-white" />
                 </div>
-                <button onClick={openAdd} className="flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white px-5 py-2.5 rounded-xl font-medium transition shadow-sm w-full sm:w-auto justify-center">
-                    <Plus size={18} /> Add Material
-                </button>
+                <div className="flex gap-2 w-full sm:w-auto">
+                    <button onClick={() => { setSelectedMaterials({}); setError(''); setShowPOModal(true); }} 
+                        className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-xl font-medium transition shadow-sm flex-1 sm:flex-initial justify-center">
+                        <FileText size={18} /> Generate PO
+                    </button>
+                    <button onClick={openAdd} className="flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white px-5 py-2.5 rounded-xl font-medium transition shadow-sm flex-1 sm:flex-initial justify-center">
+                        <Plus size={18} /> Add Material
+                    </button>
+                </div>
             </div>
+
+            {error && <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">{error}</div>}
 
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
                 <div className="overflow-x-auto">

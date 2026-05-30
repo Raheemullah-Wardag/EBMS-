@@ -122,11 +122,9 @@ const Production = () => {
   };
 
   return (
-    <AdminLayout>
+    <AdminLayout  title="Production Batches">
       <div className="animate-fade-in">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Production Batches</h1>
-        </div>
+        
 
         {error && (
           <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
