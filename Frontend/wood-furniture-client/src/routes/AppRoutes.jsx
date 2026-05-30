@@ -29,7 +29,6 @@ import Reports from '../pages/admin/Reports';
 import UserManagement from '../pages/admin/UserManagement';
 import Settings from '../pages/admin/Settings';
 import PurchaseOrders from '../pages/admin/PurchaseOrders';
-import Shifts from '../pages/admin/Shifts';
 import PayRoll from '../pages/admin/PayRoll';
 // import { RawMaterials, Customers, Payments, Reports, UserManagement, Settings } from '../pages/admin/GenericAdminPages';
 
@@ -72,7 +71,6 @@ const AppRoutes = () => {
         <Route path="customers" element={<Customers />} />
         <Route path="payments" element={<Payments />} />
         <Route path="reports" element={<Reports />} />
-        <Route path="shifts" element={<Shifts />} />
         <Route path="payroll" element={<PayRoll />} />
         <Route path="users" element={<UserManagement />} />
         <Route path="settings" element={<Settings />} />
