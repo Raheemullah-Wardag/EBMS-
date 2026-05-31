@@ -75,6 +75,48 @@ public class UserRepository : BaseRepository
     }
 
     // Check if username or email exists
+public User? GetByID(int id)
+    {
+        using var conn = GetConnection();
+        conn.Open();
+        using var cmd = new SqlCommand(@"
+            SELECT UserID, Username, Email, PasswordHash, RoleID
+            FROM Users WHERE UserID = @UserID", conn);
+        cmd.Parameters.AddWithValue("@UserID", id);
+ 
+        using var reader = cmd.ExecuteReader();
+        if (reader.Read())
+        {
+            return new User
+            {
+                UserID       = (int)reader["UserID"],
+                Username     = reader["Username"].ToString()!,
+                Email        = reader["Email"].ToString()!,
+                PasswordHash = reader["PasswordHash"].ToString()!,
+                RoleID       = (int)reader["RoleID"]
+            };
+        }
+        return null;
+    }
+ 
+    public void Update(User user)
+    {
+        using var conn = GetConnection();
+        conn.Open();
+        using var cmd = new SqlCommand(@"
+            UPDATE Users SET
+                Username = @Username,
+                Email = @Email,
+                PasswordHash = @PasswordHash
+            WHERE UserID = @UserID", conn);
+ 
+        cmd.Parameters.AddWithValue("@Username", user.Username);
+        cmd.Parameters.AddWithValue("@Email", user.Email);
+        cmd.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
+        cmd.Parameters.AddWithValue("@UserID", user.UserID);
+        cmd.ExecuteNonQuery();
+    }
+ 
     public bool Exists(string username, string email)
     {
         using var conn = GetConnection();

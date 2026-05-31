@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { getAllOrders } from '../../api/orderApi';
 import { getAllProducts } from '../../api/productApi';
 import { getAllEmployees } from '../../api/employeeApi';
+import { useAuth } from '../../context/AuthContext';
+import EmployeeDashboard from '../employee/EmployeeDashboard';
  
 const StatCard = ({ title, value, icon: Icon, trend, isPositive, colorClass, loading }) => (
     <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex flex-col">
@@ -32,6 +34,12 @@ const StatCard = ({ title, value, icon: Icon, trend, isPositive, colorClass, loa
 );
  
 const Dashboard = () => {
+    const { user } = useAuth();
+
+    if (user?.role === 'Employee') {
+        return <EmployeeDashboard />;
+    }
+
     const [orders,    setOrders]    = useState([]);
     const [products,  setProducts]  = useState([]);
     const [employees, setEmployees] = useState([]);

@@ -22,6 +22,12 @@ public class EmployeeService
         return emp == null ? null : MapToDto(emp);
     }
  
+    public EmployeeResponseDto? GetByUserID(int userId)
+    {
+        var emp = _repo.GetByUserID(userId);
+        return emp == null ? null : MapToDto(emp);
+    }
+ 
     public int Create(EmployeeCreateDto dto)
     {
         // STEP 1: CREATE THE USER ACCOUNT FIRST
@@ -68,22 +74,37 @@ public class EmployeeService
         existing.Salary     = dto.Salary;
  
         _repo.Update(existing);
-        
-        // NOTE: If you want to allow them to update the Password/Email later, 
-        // you will need to add logic here to update the _userRepo as well!
-        
+ 
+        if (existing.UserID.HasValue)
+        {
+            var user = _userRepo.GetByID(existing.UserID.Value);
+            if (user != null)
+            {
+                user.Username = dto.Username;
+                user.Email    = dto.Email;
+                if (!string.IsNullOrWhiteSpace(dto.Password))
+                    user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+                _userRepo.Update(user);
+            }
+        }
+ 
         return true;
     }
  
     private EmployeeResponseDto MapToDto(Employee e) => new EmployeeResponseDto
     {
         EmployeeID = e.EmployeeID,
+        FirstName  = e.FirstName,
+        LastName   = e.LastName,
         FullName   = e.FullName,
         JobTitle   = e.JobTitle,
         Department = e.Department,
         Phone      = e.Phone,
         HireDate   = e.HireDate,
         Salary     = e.Salary,
-        IsActive   = e.IsActive
+        IsActive   = e.IsActive,
+        Username   = e.Username,
+        Email      = e.Email,
+        RoleName   = e.RoleName
     };
 }

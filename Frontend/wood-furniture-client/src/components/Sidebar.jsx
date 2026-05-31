@@ -8,10 +8,10 @@ import {
 } from 'lucide-react';
 
 const navItems = [
-    { label: 'Dashboard',    path: '/admin',                 icon: LayoutDashboard, roles: ['Admin','Manager','Employee'] },
+    { label: 'Dashboard',    path: '/admin',                 icon: LayoutDashboard, roles: ['Admin','Manager'] },
     { label: 'HR Management',isHeader: true,                 roles: ['Admin','Manager'] },
     { label: 'Employees',    path: '/admin/employees',       icon: Users, roles: ['Admin','Manager'] },
-    { label: 'Attendance',   path: '/admin/attendance',      icon: UserCheck, roles: ['Admin','Manager','Employee'] },
+    { label: 'Attendance',   path: '/admin/attendance',      icon: UserCheck, roles: ['Admin','Manager'] },
     { label: 'Payroll',      path: '/admin/payroll',         icon: BriefcaseBusiness, roles: ['Admin','Manager'] },
     { label: 'Finance',      isHeader: true,                 roles: ['Admin','Manager'] },
     { label: 'Reports',      path: '/admin/reports',         icon: FileText, roles: ['Admin'] },

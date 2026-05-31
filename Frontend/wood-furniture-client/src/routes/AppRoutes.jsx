@@ -30,6 +30,7 @@ import UserManagement from '../pages/admin/UserManagement';
 import Settings from '../pages/admin/Settings';
 import PurchaseOrders from '../pages/admin/PurchaseOrders';
 import PayRoll from '../pages/admin/PayRoll';
+import EmployeeAttendance from '../pages/employee/AttendanceEntry';
 // import { RawMaterials, Customers, Payments, Reports, UserManagement, Settings } from '../pages/admin/GenericAdminPages';
 
 import CustomerLayout from '../components/CustomerLayout';
@@ -44,6 +45,8 @@ const AppRoutes = () => {
       <Route path="/shop/:id" element={<ProductDetail />} /> 
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/attendance" element={<EmployeeAttendance />} />
+      <Route path="/attendence" element={<EmployeeAttendance />} />
 
       {/* Customer Area with Navbar */}
       <Route element={<Outlet />}>

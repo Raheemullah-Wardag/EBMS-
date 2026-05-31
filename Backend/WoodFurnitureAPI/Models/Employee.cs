@@ -15,6 +15,9 @@ public class Employee
     public DateTime HireDate    { get; set; }
     public decimal  Salary      { get; set; }
     public bool     IsActive    { get; set; } = true;
+    public string?  Username    { get; set; }
+    public string?  Email       { get; set; }
+    public string?  RoleName    { get; set; }
     public DateTime CreatedAt   { get; set; }
 }
  

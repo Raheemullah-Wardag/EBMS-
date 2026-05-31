@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Policy = "ManagerUp")]
+[Authorize(Policy = "EmployeeUp")]
 public class EmployeeController : ControllerBase
 {
     private readonly EmployeeService _employeeService;
@@ -16,6 +16,7 @@ public class EmployeeController : ControllerBase
  
     // GET /api/employees
     [HttpGet]
+    [Authorize(Policy = "ManagerUp")]
     public IActionResult GetAll()
     {
         var employees = _employeeService.GetAll();
@@ -24,9 +25,21 @@ public class EmployeeController : ControllerBase
  
     // GET /api/employees/5
     [HttpGet("{id}")]
+    [Authorize(Policy = "ManagerUp")]
     public IActionResult GetByID(int id)
     {
         var emp = _employeeService.GetByID(id);
+        if (emp == null)
+            return NotFound(new { message = "Employee not found." });
+ 
+        return Ok(emp);
+    }
+ 
+    // GET /api/employees/user/5
+    [HttpGet("user/{userId}")]
+    public IActionResult GetByUserID(int userId)
+    {
+        var emp = _employeeService.GetByUserID(userId);
         if (emp == null)
             return NotFound(new { message = "Employee not found." });
  
